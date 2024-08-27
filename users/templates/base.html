@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Event Recommendations</title>
+        <link rel="stylesheet" href="{% static 'home.css' %}">
+        <script>
+            function validateSearchForm() {
+                var searchInput = document.getElementById("search-input").value.trim();
+                if (searchInput === "") {
+                    return false;
+                }
+                return true;
+            }
+        </script>
+    </head>
+    <body>
+        <div class="main-header">
+            <form class="search-form" method="GET" action="{% url 'users:search' %}">
+                <input type="text" id="search-input" name="q" placeholder="Search events..." required>
+            </form>
+            <h3>Hey,there!</h3>
+            <div class="nav-content">
+                {% if user.is_authenticated %}
+                    <form method="POST" action="{% url 'users:logout' %}">
+                        {% csrf_token %}
+                        <a href="#" onclick="this.closest('form').submit();" style="home.css">Logout</a>
+                    </form>
+                {% else %}
+                    <a href="{% url 'users:login' %}">Login</a>
+                    <a href="{% url 'users:signup' %}">SignUp</a>
+                {% endif %}
+            </div>
+        </div>
+
+        {% block content %}
+        <!-- Page-specific content will be inserted here -->
+        {% endblock %}
+
+        <footer class="main-footer">
+            <p>&copy; 2024 Local Event Finder. All rights reserved.</p>
+        </footer>
+    </body>
+</html>

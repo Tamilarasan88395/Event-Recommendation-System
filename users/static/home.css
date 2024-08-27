@@ -1,42 +1,64 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #ffffff;
     color: #333;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Header Styles */
 .main-header {
     display: flex;
     justify-content: space-between;
-    background-color: #20639b;
+    background-color: #d3d3d3;
     padding: 10px;
-    color: white;
+    color: black;
     align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .main-header h3 {
-    margin-left: 30px;
-    font-size: 20px;
+    font-size: 18px;
 }
 
+/* Login & Signup Buttons */
 .nav-content {
-    width: 10%;
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
 }
 
 .nav-content a {
-    color: white;
+    color: black;
     text-decoration: none;
     padding: 10px 10px;
 }
 
 .nav-content a:hover {
-    color: black;
+    color: white;
 }
 
+/* Search Form Styles */
+.search-form {
+    display: flex;
+    margin-left: 80px;
+}
+
+.search-form input[type="text"] {
+    padding: 10px;
+    border: none;
+    margin-right: 10px;
+    border-radius: 3px;
+    width: 500px;
+}
+
+/* Event Section Styles */
 .events-section {
     padding: 20px 80px;
     background-color: #fff;
@@ -57,7 +79,6 @@ body {
     scroll-snap-type: x mandatory;
     align-items: center;
     overflow-y: visible;
-    padding-bottom: 10px;
 }
 
 .events-container::-webkit-scrollbar {
@@ -66,19 +87,22 @@ body {
 
 .event-card {
     background-color: #f9f9f9;
-    border-radius: 8px;
-    text-align: justify;
-    margin: 10px;
+    margin-right: 20px;
     text-decoration: none;
     color: black;
     scroll-snap-align: none start;
     scroll-margin: 0 0 0 10px;
+    border-radius: 8px;
 }
 
 .event-card img {
-    width: 200px;
-    height: 356px;
-    border-radius: 8px;
+    width: 420px;
+    height: 215px;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.event-content {
+    height: 80px;
 }
 
 .event-content h5 {
@@ -88,14 +112,37 @@ body {
 
 .event-content p {
     margin: 5px;
-    font-size: 13px;
-    text-align: justify;
+    font-size: 15px;
+    text-align:justify;
 }
 
+.event-detail-section {
+    display: block;
+    padding: 50px;
+}
+
+.event-detail-container {
+    display: flex;
+}
+
+.event-detail-container img {
+    border-radius: 8px;
+    width: 800px;
+    height: 450px;
+}
+.event-detail {
+    display: block;
+    padding-left: 75px;
+}
+
+/* Footer Styles */
 .main-footer {
     text-align: center;
-    padding: 20px;
-    background-color: #20639b;
-    color: white;
-    margin-top: 40px;
+    padding: 0;
+    background-color: #d3d3d3;
+    color: black;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
 }

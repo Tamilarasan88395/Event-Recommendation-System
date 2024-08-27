@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="event-detail-section">
+    <div class="event-detail-container">
+        <img src="{{ event.image_url }}" alt="{{ event.event_name }}">
+        <div class="event-detail">
+            <h1>{{ event.event_name }}</h1>
+            <p>Date: {{ event.date }}</p>
+            <p>Location: {{ event.location }}</p>
+            <p>{{ event.city }}</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
