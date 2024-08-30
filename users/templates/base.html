@@ -18,10 +18,10 @@
     </head>
     <body>
         <div class="main-header">
-            <form class="search-form" method="GET" action="{% url 'users:search' %}">
-                <input type="text" id="search-input" name="q" placeholder="Search events..." required>
-            </form>
             <h3>Hey,there!</h3>
+            <form class="search-form" method="GET" action="{% url 'users:search' %}">
+                <input type="text" id="search-input" name="q" placeholder="Search events..." required/>
+            </form>
             <div class="nav-content">
                 {% if user.is_authenticated %}
                     <form method="POST" action="{% url 'users:logout' %}">

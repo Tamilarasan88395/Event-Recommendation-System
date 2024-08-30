@@ -7,17 +7,15 @@ body {
     color: #333;
     padding-top: 80px;
     padding-bottom: 80px;
-    display: flex;
-    flex-direction: column;
 }
 
 /* Header Styles */
 .main-header {
     display: flex;
     justify-content: space-between;
-    background-color: #d3d3d3;
-    padding: 10px;
-    color: black;
+    background-color: #002D4B;
+    padding: 10px 40px;
+    color: white;
     align-items: center;
     position: fixed;
     top: 0;
@@ -32,16 +30,17 @@ body {
 /* Login & Signup Buttons */
 .nav-content {
     display: flex;
+    padding-right: 60px
 }
 
 .nav-content a {
-    color: black;
+    color: white;
     text-decoration: none;
     padding: 10px 10px;
 }
 
 .nav-content a:hover {
-    color: white;
+    text-decoration: underline;
 }
 
 /* Search Form Styles */
@@ -54,20 +53,35 @@ body {
     padding: 10px;
     border: none;
     margin-right: 10px;
-    border-radius: 3px;
+    border-radius: 50px;
     width: 500px;
 }
 
 /* Event Section Styles */
-.events-section {
+.events-section{
     padding: 20px 80px;
     background-color: #fff;
 }
 
-.events-section h2 {
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 15px;
+}
+
+.section-header h2 {
     margin-bottom: 30px;
     font-size: 28px;
+}
+
+.section-header a {
+    text-decoration: none;
     color: black;
+}
+
+.section-header a:hover {
+    text-decoration: underline;
 }
 
 .events-container {
@@ -77,17 +91,56 @@ body {
     overflow-x: auto;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
+    animation-name: scroll(x);
     align-items: center;
     overflow-y: visible;
+    gap: 20px;
+    -webkit-overflow-scrolling: touch;
 }
 
 .events-container::-webkit-scrollbar {
     display: none;
 }
 
+.events-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.cover {
+    position: relative;
+}
+.left {
+    position: absolute;
+    left: -45px;
+    top: 50%;
+    border-radius: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #002D4B20;
+    stroke: white;
+    transform: translateY(-50%);
+}
+
+.right {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    border-radius: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #002D4B20;
+    stroke: white;
+    transform: translateY(-50%);
+}
+
+.left:hover, .right:hover {
+    background-color: #002D4B80;
+}
+
 .event-card {
     background-color: #f9f9f9;
-    margin-right: 20px;
     text-decoration: none;
     color: black;
     scroll-snap-align: none start;
@@ -116,13 +169,21 @@ body {
     text-align:justify;
 }
 
-.event-detail-section {
-    display: block;
-    padding: 50px;
+.tag-container {
+    display: flex;
+    gap: 20px;
+}
+
+.tag-card img {
+    width: 215px;
+    height: 215px;
+    border-radius: 8px;
 }
 
 .event-detail-container {
     display: flex;
+    padding: 100px;
+    gap: 75px;
 }
 
 .event-detail-container img {
@@ -132,17 +193,60 @@ body {
 }
 .event-detail {
     display: block;
-    padding-left: 75px;
+    padding: 0px 30px;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+.event-detail p {
+    text-align: justify;
+}
+
+.event-booking {
+    display: flex;
+    margin: 10px 0px;
+    gap: 20px;
+    align-items: center;
+}
+
+.event-booking a {
+    padding: 8px 12px;
+    text-decoration: none;
+    background-color: #002D4B;
+    color: white;
+    border-radius: 5px;
 }
 
 /* Footer Styles */
 .main-footer {
     text-align: center;
     padding: 0;
-    background-color: #d3d3d3;
-    color: black;
+    background-color: #002D4B;
+    color: white;
     position: fixed;
     bottom: 0;
     width: 100%;
     z-index: 1000;
+}
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.pagination a:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination .current {
+    font-weight: bold;
+    margin: 0 5px;
 }

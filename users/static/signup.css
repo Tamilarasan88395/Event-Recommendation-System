@@ -5,11 +5,13 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    color: #333;
+    color: black;
+    background-image: url("images/cover.jpg");
+    background-size: cover;
 }
 
 .container {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.8);
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -43,14 +45,14 @@ h1 {
 }
 
 .form-group input:focus {
-    border-color: #2575fc;
+    border-color: #002d4b;
     outline: none;
-    box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
+    box-shadow: 0 0 5px #002d4b80;
 }
 
 button {
     padding: 10px 20px;
-    background-color: #2575fc;
+    background-color: #002d4b;
     border: none;
     border-radius: 4px;
     color: #fff;
@@ -63,7 +65,7 @@ button {
 }
 
 button:hover {
-    background-color: #1d65d0;
+    background-color: #002d4b;
 }
 
 .footer {
@@ -72,7 +74,7 @@ button:hover {
 }
 
 .footer a {
-    color: #2575fc;
+    color: #002d4b;
     text-decoration: none;
     font-size: small;
 }

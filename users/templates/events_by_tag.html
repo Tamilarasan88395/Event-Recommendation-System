@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="events-section">
+    <h2>{{ event_tag }} Events</h2>
+    <div class="events-grid-container">
+        {% for event in events %}
+            <a href="{% url 'users:event_detail' event.id %}" class="event-card">
+                <img src="{{ event.image_url }}" alt="{{ event.event_name }}">
+                <div class="event-content">
+                    <h5>{{ event.event_name }}</h5>
+                    <p>{{ event.city }}</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if events.has_previous %}
+                <a href="?page=1">First</a>
+                <a href="?page={{ events.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ events.number }} of {{ events.paginator.num_pages }}
+            </span>
+
+            {% if events.has_next %}
+                <a href="?page={{ events.next_page_number }}">Next</a>
+                <a href="?page={{ events.paginator.num_pages }}">Last</a>
+            {% endif %}
+        </span>
+    </div>
+</section>
+{% endblock %}

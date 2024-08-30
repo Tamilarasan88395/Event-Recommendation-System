@@ -1,87 +1,86 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
+<script>
+    function leftScroll() {
+      const left = document.querySelector(".events-container");
+      left.scrollBy(-440, 0);
+    }
+    function rightScroll() {
+      const right = document.querySelector(".events-container");
+      right.scrollBy(440, 0);
+    }
+</script>
 <section class="events-section">
-    <h2>Upcoming Events</h2>
-    <div class="events-container">
-        {% for event in events %}
-            <a href="{% url 'users:event_detail' event.id %}" class="event-card">
-                <img src="{{ event.image_url }}" alt="{{ event.event_name }}">
-                <div class="event-content">
-                    <h5>{{ event.event_name }}</h5>
-                    <p>{{ event.event_tag }}, {{ event.city }}</p>
-                </div>
-            </a>
+    <div class="section-header">
+        <h2>Upcoming Events</h2>
+        <a href="{% url 'users:events_by_tag' 'Upcoming' %}">view all</a>
+    </div>
+    <div class="cover">
+        <button class="left" onclick="leftScroll()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+            </svg>
+        </button>
+        <div class="events-container">
+            {% for event in events %}
+                <a href="{% url 'users:event_detail' event.id %}" class="event-card">
+                    <img src="{{ event.image_url }}" alt="{{ event.event_name }}">
+                    <div class="event-content">
+                        <h5>{{ event.event_name }}</h5>
+                        <p>{{ event.event_tag }}, {{ event.city }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <button class="right" onclick="rightScroll()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+        </button>
+    </div>
+</section>
+<section class="events-section">
+    <div class="events-header">
+        <h2>Search Events By Genere</h2>
+    </div>
+    <div class="tag-container">
+        {% for tag, events in events_by_tag.items %}
+        <a href="{% url 'users:events_by_tag' tag %}" class="tag-card">
+            <img src="{% static 'images/' %}{{ tag|lower|slice:"4" }}.jpg" alt="{{ tag }}">
+        </a>
         {% endfor %}
     </div>
 </section>
+{% for tag, events in events_by_tag.items %}
 <section class="events-section">
-    <h2>Recommended for you</h2>
-    <div class="events-container">
-        <a href="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg"  class="event-card">
-            <img src="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg" alt="Night Market">
-            <div class="event-content">
-                <h5>Night Market</h5>
-                <p>September 08, 2024</p>
-                <p>Central Park, New York</p>
-            </div>
-        </a>
-        <a href="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg"  class="event-card">
-            <img src="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg" alt="Night Market">
-            <div class="event-content">
-                <h5>Night Market</h5>
-                <p>September 08, 2024</p>
-                <p>Central Park, New York</p>
-            </div>
-        </a>
-        <a href="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg"  class="event-card">
-            <img src="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg" alt="Night Market">
-            <div class="event-content">
-                <h5>Night Market</h5>
-                <p>September 08, 2024</p>
-                <p>Central Park, New York</p>
-            </div>
-        </a>
-        <a href="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg"  class="event-card">
-            <img src="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg" alt="Night Market">
-            <div class="event-content">
-                <h5>Night Market</h5>
-                <p>September 08, 2024</p>
-                <p>Central Park, New York</p>
-            </div>
-        </a>
-        <a href="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg"  class="event-card">
-            <img src="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg" alt="Night Market">
-            <div class="event-content">
-                <h5>Night Market</h5>
-                <p>September 08, 2024</p>
-                <p>Central Park, New York</p>
-            </div>
-        </a>
-        <a href="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg"  class="event-card">
-            <img src="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg" alt="Night Market">
-            <div class="event-content">
-                <h5>Night Market</h5>
-                <p>September 08, 2024</p>
-                <p>Central Park, New York</p>
-            </div>
-        </a>
-        <a href="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg"  class="event-card">
-            <img src="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg" alt="Night Market">
-            <div class="event-content">
-                <h5>Night Market</h5>
-                <p>September 08, 2024</p>
-                <p>Central Park, New York</p>
-            </div>
-        </a>
-        <a href="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg"  class="event-card">
-            <img src="https://piktochart.com/wp-content/uploads/2018/02/4-4700104.jpg" alt="Night Market">
-            <div class="event-content">
-                <h5>Night Market</h5>
-                <p>September 08, 2024</p>
-                <p>Central Park, New York</p>
-            </div>
-        </a>
+    <div class="section-header">
+        <h2>{{tag}}</h2>
+        <a href="{% url 'users:events_by_tag' tag %}">view all</a>
+    </div>
+    <div class="cover">
+        <button class="left" onclick="leftScroll()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+            </svg>
+        </button>
+        <div class="events-container">
+            {% for event in events %}
+                <a href="{% url 'users:event_detail' event.id %}" class="event-card">
+                    <img src="{{ event.image_url }}" alt="{{ event.event_name }}">
+                    <div class="event-content">
+                        <h5>{{ event.event_name }}</h5>
+                        <p>{{ event.event_tag }}, {{ event.city }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <button class="right" onclick="rightScroll()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+        </button>
     </div>
 </section>
-{%endblock%}
+{% endfor %}
+{% endblock %}
