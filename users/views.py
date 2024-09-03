@@ -5,8 +5,35 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
 from .models import Event
 from django.core.paginator import Paginator
-
 from django.db.models import Count
+from .forms import UserProfileForm, UserForm
+from .models import UserProfile
+
+
+def profile_view(request):
+    try:
+        profile = request.user.userprofile
+    except UserProfile.DoesNotExist:
+        profile = UserProfile.objects.create(user=request.user)
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()  # This will save first_name, last_name, and email
+            profile_form.save()  # This will save profile_picture and location
+            return redirect('users:home')  # Redirect to a desired page after saving
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=profile)
+
+    return render(request, 'profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'profile_picture': profile.profile_picture
+    })
+
 
 def home(request):
     '''Home page with all the events'''

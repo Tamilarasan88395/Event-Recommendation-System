@@ -1,0 +1,78 @@
+{% load static %} 
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Recommendations</title>
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+ </head>
+ <body>
+    <div class="main-header">
+        <h3>Hey, {% if user.is_authenticated %}{{ user.userprofile.first_name|default:user.username }}{% else %}there!{% endif %}</h3>
+        <div class="nav-content">
+            {% if user.is_authenticated %}
+            <form method="POST" action="{% url 'users:logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <a href="#" onclick="this.closest('form').submit();">Logout</a>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    <div class="container"></div>
+            <h1>Update Profile</h1>
+
+            <!-- Display the current profile image if it exists -->
+            <div class="profile-picture">
+                    {% if profile_form.instance.profile_picture %}
+                        <img src="{{ profile_form.instance.profile_picture.url }}" alt="Profile Picture" style="width:150px; height:150px; border-radius:50%;">
+                    {% else %}
+                        <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture" style="width:150px; height:150px; border-radius:50%;">
+                    {% endif %}
+            </div>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Username Field -->
+                <div class="form-group">
+                <label for="id_username">Username:</label>
+                {{ user_form.username }}
+                </div>
+
+                <!-- Email Field (disabled) -->
+                <div class="form-group">
+                <label for="id_email">Email:</label>
+                {{ user_form.email }}
+                </div>
+
+                <div class="form-group">
+                <label for="id_first_name">First Name:</label>
+                {{ profile_form.first_name }}
+                </div>
+                
+                <div class="form-group">
+                <label for="id_last_name">Last Name:</label>
+                {{ profile_form.last_name }}
+                </div>
+
+                <!-- Profile Picture Field -->
+                <div class="form-group">
+                <label for="id_profile_picture">Profile Picture:</label>
+                {{ profile_form.profile_picture }}
+                </div>
+
+                <!-- Location Field -->
+                <div class="form-group">
+                <label for="id_location">Location:</label>
+                {{ profile_form.location }}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group">
+                <button type="submit">Update Profile</button>
+                </div>
+            </form>
+        </div>       
+ </body>
+ </html>
