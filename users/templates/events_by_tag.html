@@ -1,6 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if not user.is_authenticated %}
+        document.querySelectorAll('.next-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default action
+                document.getElementById('login-popup').style.display = 'block';
+            });
+        });
+    
+        document.getElementById('close-popup').addEventListener('click', function() {
+            document.getElementById('login-popup').style.display = 'none';
+        });
+        {% endif %}
+    });
+</script>
+
 <section class="events-section">
     <h2>{{ event_tag }} Events</h2>
     <div class="events-grid-container">
@@ -27,10 +44,20 @@
             </span>
 
             {% if events.has_next %}
-                <a href="?page={{ events.next_page_number }}">Next</a>
+            <a href="?page={{ events.next_page_number }}" class="next-button">Next</a>
                 <a href="?page={{ events.paginator.num_pages }}">Last</a>
             {% endif %}
         </span>
     </div>
 </section>
+
+<!-- Popup Modal for Login Alert -->
+<div id="login-popup" class="popup">
+    <div class="popup-content">
+        <span id="close-popup" class="close">&times;</span>
+        <p>You need to be logged in to navigate through the events.</p>
+        <a href="{% url 'users:login' %}?next={{ request.path }}">Login</a>
+    </div>
+</div>
+
 {% endblock %}

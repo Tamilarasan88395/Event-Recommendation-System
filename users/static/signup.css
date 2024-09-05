@@ -6,8 +6,6 @@ body {
     height: 100vh;
     margin: 0;
     color: black;
-    background-image: url("images/cover.jpg");
-    background-size: cover;
 }
 
 .container {
@@ -62,10 +60,6 @@ button {
     display: block;
     margin: auto;
     margin-top: 40px;
-}
-
-button:hover {
-    background-color: #002d4b;
 }
 
 .footer {

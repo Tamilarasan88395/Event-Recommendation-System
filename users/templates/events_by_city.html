@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="events-section">
+    <div class="section-header">
+        <h2>Upcoming Events in {{ selected_city }}</h2>
+    </div>
+    {% if events %}
+        <div class="events-grid-container">
+            {% for event in events %}
+                <a href="{% url 'users:event_detail' event.id %}" class="event-card">
+                    <img src="{{ event.image_url }}" alt="{{ event.event_name }}">
+                    <div class="event-content">
+                        <h5>{{ event.event_name }}</h5>
+                        <p>{{ event.event_tag }}, {{ event.city }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No events found in {{ selected_city }}.</p>
+    {% endif %}
+</section>
+{% endblock %}

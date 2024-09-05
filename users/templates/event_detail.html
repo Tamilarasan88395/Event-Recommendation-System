@@ -1,19 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="event-detail-container">
+<div class="event-detail-container1">
     <img src="{{ event.image_url }}" alt="{{ event.event_name }}">
-    <div class="event-detail">
-        <h1>{{ event.event_name }}</h1>
+    <div class="event-detail1">
+        <h2>{{ event.event_name }}</h2>
         <p>{{ event.date }} | {{event.time}} | {{ event.event_tag }}</p>
         <h3>Location:</h3>
         <p>{{ event.location }}</p>
-        <h3>About:</h3>
-        <p>{{event.description}}</p>
         <div class="event-booking">
             <h3>click here to book ticket</h3>
             <a href="{{event.booking_url}}">Book</a>
         </div>
+    </div>
+</div>
+<div class="event-detail-container2">
+    <div class="event-detail2">
+        <h3>About:</h3>
+        <p>{{ event.description }}</p>
     </div>
 </div>
 {% endblock %}
