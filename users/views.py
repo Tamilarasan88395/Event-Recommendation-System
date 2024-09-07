@@ -1,31 +1,27 @@
 """ views """
 
-from django import forms
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, User
 from django.core.paginator import Paginator
-from .models import Event
-
-
-from .forms import UserProfileForm, UserForm
-from .models import UserProfile
+from .models import Event, UserProfile
+from .forms import CustomUserCreationForm, UserProfileForm
 
 def profile_view(request):
+    ''' User Profile Updation '''
     try:
         profile = request.user.userprofile
     except UserProfile.DoesNotExist:
         profile = UserProfile.objects.create(user=request.user)
 
     if request.method == 'POST':
-        user_form = UserForm(request.POST, instance=request.user)
+        user_form = CustomUserCreationForm(request.POST, instance=request.user)
         profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
-        
+
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()  # This will save first_name, last_name, and email
             profile_form.save()  # This will save profile_picture and location
             return redirect('users:profile')  # Redirect to a desired page after saving
     else:
-        user_form = UserForm(instance=request.user)
+        user_form = CustomUserCreationForm(instance=request.user)
         profile_form = UserProfileForm(instance=profile)
 
     return render(request, 'profile.html', {
@@ -43,14 +39,14 @@ def home(request):
     # Retrieve all unique city names
     cities = Event.objects.values_list('city', flat=True).distinct()
 
-    events_by_tag = {}
+    tag_events = {}
     for tag in tags:
-        events_by_tag[tag["event_tag"]] = Event.objects.filter(
+        tag_events[tag["event_tag"]] = Event.objects.filter(
             event_tag=tag["event_tag"]
         )[:5]
 
     return render(
-        request, "home.html", {"events": events, "events_by_tag": events_by_tag, "cities": cities}
+        request, "home.html", {"events": events, "events_by_tag": tag_events, "cities": cities}
     )
 
 def events_by_city(request):
@@ -72,9 +68,9 @@ def events_by_city(request):
             'selected_city': selected_city}
         )
 
-def event_detail(request, id):
+def event_detail(request, event_id):
     """Event Detail page which returns the details of the event"""
-    event = Event.objects.get(id=id)
+    event = Event.objects.get(id=event_id)
     return render(request, "event_detail.html", {"event": event})
 
 
@@ -100,22 +96,12 @@ def search(request):
     query = request.GET.get("q")
     if not query:
         return redirect("users:home")
-    else:
-        events = Event.objects.filter(event_name__contains=query)
-        return render(
-            request, "search_results.html", {"events": events, "query": query}
-        )
+    events = Event.objects.filter(event_name__contains=query)
+    return render(request, "search_results.html", {"events": events, "query": query})
 
 
 def signup(request):
     """Signup Page for User Registration"""
-
-    class CustomUserCreationForm(UserCreationForm):
-        email = forms.EmailField(required=True, max_length=254)
-
-        class Meta:
-            model = User
-            fields = ("username", "email", "password1", "password2")
 
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
