@@ -38,4 +38,21 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def save(self, *args, **kwargs):
+        """ Handle image replacement or removal """
+        try:
+            old_profile = UserProfile.objects.get(id=self.id)
+            if old_profile.profile_picture and old_profile.profile_picture != self.profile_picture:
+                old_profile.profile_picture.delete(save=False)
+        except UserProfile.DoesNotExist:
+            pass
+
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        """ Delete the profile pricture if it exists """
+        if self.profile_picture:
+            self.profile_picture.delete(save=False)
+        super().delete(*args, **kwargs)
     

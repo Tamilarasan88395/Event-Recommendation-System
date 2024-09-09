@@ -1,22 +1,70 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2 style="padding-left:40px;">Search Results for "{{ query }}"</h2>
-    <div class="events-section">
-        {% if events %}
-            <div class="events-container">
-                {% for event in events %}
-                    <a href="{% url 'users:event_detail' event.id %}" class="event-card">
-                        <img src="{{ event.image_url }}" alt="{{ event.event_name }}">
-                        <div class="event-content">
-                            <h5>{{ event.event_name }}</h5>
-                            <p>{{ event.event_tag }}, {{ event.city }}</p>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p>No events found</p>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if not user.is_authenticated %}
+        document.querySelectorAll('.next-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default action
+                document.getElementById('login-popup').style.display = 'block';
+            });
+        });
+    
+        document.getElementById('close-popup').addEventListener('click', function() {
+            document.getElementById('login-popup').style.display = 'none';
+        });
         {% endif %}
+    });
+</script>
+
+<div class="events-section">
+    <h2>Search Results for "{{ query }}"</h2>
+    {% if events %}
+        <div class="events-grid-container">
+            {% for event in events %}
+                <a href="{% url 'users:event_detail' event.id %}" class="event-card">
+                    <img src="{{ event.image_url }}" alt="{{ event.event_name }}">
+                    <div class="event-content">
+                        <h5>{{ event.event_name }}</h5>
+                        <p>{{ event.event_tag }}, {{ event.city }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No events found</p>
+    {% endif %}
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if events.has_previous %}
+                <a href="?q={{ query }}&page=1">First</a>
+                <a href="?q={{ query }}&page={{ events.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% if events.paginator.num_pages > 1 %}
+                <span class="current">
+                    Page {{ events.number }} of {{ events.paginator.num_pages }}
+                </span>
+            {% endif %}
+
+            {% if events.has_next %}
+                <a href="?q={{ query }}&page={{ events.next_page_number }}" class="next-button">Next</a>
+                <a href="?q={{ query }}&page={{ events.paginator.num_pages }}">Last</a>
+            {% endif %}
+        </span>
     </div>
+</div>
+
+<!-- Popup Modal for Login Alert -->
+<div id="login-popup" class="popup">
+    <div class="popup-content">
+        <span id="close-popup" class="close">&times;</span>
+        <p>You need to be logged in to navigate through the events.</p>
+        <a href="{% url 'users:login' %}?next={{ request.path }}">Login</a>
+    </div>
+</div>
+
 {% endblock %}

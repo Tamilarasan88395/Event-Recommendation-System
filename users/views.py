@@ -1,5 +1,5 @@
 """ views """
-
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from .models import Event, UserProfile
@@ -16,10 +16,12 @@ def profile_view(request):
         user_form = CustomUserCreationForm(request.POST, instance=request.user)
         profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()  # This will save first_name, last_name, and email
-            profile_form.save()  # This will save profile_picture and location
-            return redirect('users:profile')  # Redirect to a desired page after saving
+        if user_form.is_valid():
+            user_form.save()  # This will save username and email
+            return redirect('users:profile')
+        if profile_form.is_valid():
+            profile_form.save()  # This will save first & last name, profile_picture and location
+            return redirect('users:profile')
     else:
         user_form = CustomUserCreationForm(instance=request.user)
         profile_form = UserProfileForm(instance=profile)
@@ -68,9 +70,9 @@ def events_by_city(request):
             'selected_city': selected_city}
         )
 
-def event_detail(request, event_id):
+def event_detail(request, id):
     """Event Detail page which returns the details of the event"""
-    event = Event.objects.get(id=event_id)
+    event = Event.objects.get(id=id)
     return render(request, "event_detail.html", {"event": event})
 
 
@@ -96,7 +98,16 @@ def search(request):
     query = request.GET.get("q")
     if not query:
         return redirect("users:home")
-    events = Event.objects.filter(event_name__contains=query)
+    # Filtering events by event_name or tag_name containing the search query
+    events = Event.objects.filter(
+        Q(event_name__icontains=query) | Q(event_tag__icontains=query)
+    )
+
+    # Set up pagination (e.g., 5 events per page)
+    paginator = Paginator(events, 6)
+    page_number = request.GET.get("page")
+    events = paginator.get_page(page_number)
+
     return render(request, "search_results.html", {"events": events, "query": query})
 
 

@@ -33,6 +33,11 @@ body {
     margin-left: 30px;
 }
 
+.home {
+    text-decoration: none;
+    color: white;
+    margin-left: 220px;
+}
 /* Search Form Styles */
 .search-form {
     display: flex;
@@ -74,7 +79,7 @@ body {
 .dropdown {
     position: relative;
     display: inline-block;
-    margin-left: 250px;
+    margin-left: 30px;
 }
 
 .dropdown button {
@@ -313,6 +318,11 @@ body {
     width: 215px;
     height: 215px;
     border-radius: 25px;
+    transition: transform 0.2s ease, z-index 0.2s ease; /* Smooth transition */
+}
+
+.tag-card img:hover {
+    transform: scale(1.05);
 }
 
 /* Event-Detail Page Styling */
