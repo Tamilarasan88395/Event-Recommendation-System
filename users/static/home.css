@@ -33,11 +33,6 @@ body {
     margin-left: 30px;
 }
 
-.home {
-    text-decoration: none;
-    color: white;
-    margin-left: 220px;
-}
 /* Search Form Styles */
 .search-form {
     display: flex;
@@ -47,7 +42,6 @@ body {
 .search-form input[type="text"] {
     padding: 10px;
     border: none;
-    margin-right: 10px;
     border-radius: 50px;
     width: 500px;
 }
@@ -73,6 +67,12 @@ body {
 /* Style the options within the dropdown */
 .city-dropdown-form option {
     padding: 10px;
+}
+
+.home {
+    text-decoration: none;
+    color: white;
+    margin-left: 220px;
 }
 
 /* Dropdown button styling */
@@ -169,7 +169,7 @@ body {
 
 /* Event-Section Styles */
 .events-section{
-    padding: 20px 80px;
+    padding: 10px 80px;
     background-color: #fff;
 }
 

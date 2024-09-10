@@ -1,6 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if not user.is_authenticated %}
+        document.querySelectorAll('.next-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default action
+                document.getElementById('login-popup').style.display = 'block';
+            });
+        });
+    
+        document.getElementById('close-popup').addEventListener('click', function() {
+            document.getElementById('login-popup').style.display = 'none';
+        });
+        {% endif %}
+    });
+</script>
+
 <div class="event-detail-container1">
     <img src="{{ event.image_url }}" alt="{{ event.event_name }}">
     <div class="event-detail1">
@@ -10,7 +27,11 @@
         <p>{{ event.location }}</p>
         <div class="event-booking">
             <h3>click here to book ticket</h3>
-            <a href="{{event.booking_url}}">Book</a>
+            {% if user.is_authenticated %}
+                <a href="{{event.booking_url}}" class="next-button">Book</a>
+            {% else %}
+                <a href="#" class="next-button">Book</a>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -20,4 +41,14 @@
         <p>{{ event.description }}</p>
     </div>
 </div>
+
+<!-- Popup Modal for Login Alert -->
+<div id="login-popup" class="popup">
+    <div class="popup-content">
+        <span id="close-popup" class="close">&times;</span>
+        <p>You need to be login to book tickets.</p>
+        <a href="{% url 'users:login' %}?next={{ request.path }}">Login</a>
+    </div>
+</div>
+
 {% endblock %}
