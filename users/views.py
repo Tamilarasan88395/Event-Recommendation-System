@@ -17,7 +17,7 @@ def profile_view(request):
         profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
 
         if user_form.is_valid():
-            user_form.save()  # This will save username and email
+            user_form.username.save()  # This will save username and email
             return redirect('users:profile')
         if profile_form.is_valid():
             profile_form.save()  # This will save first & last name, profile_picture and location
@@ -73,6 +73,13 @@ def events_by_city(request):
 def event_detail(request, id):
     """Event Detail page which returns the details of the event"""
     event = Event.objects.get(id=id)
+
+    # Store event interaction in UserActivity
+    if request.user.is_authenticated:
+        user_activity, created = UserProfile.objects.get_or_create(user=request.user)
+        user_activity.interaction = f"{user_activity.interaction}, {event.event_tag}" if user_activity.interaction else event.event_tag
+        user_activity.save()
+
     return render(request, "event_detail.html", {"event": event})
 
 
@@ -98,12 +105,17 @@ def search(request):
     query = request.GET.get("q")
     if not query:
         return redirect("users:home")
-    # Filtering events by event_name or tag_name containing the search query
+
     events = Event.objects.filter(
         Q(event_name__icontains=query) | Q(event_tag__icontains=query)
     )
 
-    # Set up pagination (e.g., 5 events per page)
+    # Store search history in UserActivity
+    if request.user.is_authenticated:
+        user_activity, created = UserProfile.objects.get_or_create(user=request.user)
+        user_activity.search_history = f"{user_activity.search_history}, {query}" if user_activity.search_history else query
+        user_activity.save()
+
     paginator = Paginator(events, 6)
     page_number = request.GET.get("page")
     events = paginator.get_page(page_number)

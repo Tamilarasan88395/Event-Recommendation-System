@@ -35,6 +35,8 @@ class UserProfile(models.Model):
     location = models.CharField(max_length=100, blank=True, null=True)
     first_name = models.CharField(max_length=10, blank=True, null=True)
     last_name = models.CharField(max_length=10, blank=True, null=True)
+    search_history = models.TextField(blank=True, null=True)  # To store search queries as text
+    interaction = models.TextField(blank=True, null=True)  # To store event interactions
 
     def __str__(self):
         return self.user.username
@@ -55,4 +57,3 @@ class UserProfile(models.Model):
         if self.profile_picture:
             self.profile_picture.delete(save=False)
         super().delete(*args, **kwargs)
-    
