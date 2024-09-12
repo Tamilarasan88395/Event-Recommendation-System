@@ -85,8 +85,8 @@ def recommend_events(user):
 
 def home(request):
     """Home page with all the events"""
-    # Retrieve all events and shuffe them
-    events = Event.objects.all()[:5]
+    # Retrieve all events and orders by date
+    events = Event.objects.all().order_by("date")[:5]
     # Retrieve all unique event tags
     tags = Event.objects.values("event_tag")
     # Retrieve all unique city names
@@ -94,9 +94,7 @@ def home(request):
 
     tag_events = {}
     for tag in tags:
-        tag_events[tag["event_tag"]] = Event.objects.filter(event_tag=tag["event_tag"])[
-            :5
-        ]
+        tag_events[tag["event_tag"]] = Event.objects.filter(event_tag=tag["event_tag"])[:5]
 
     # Generate recommendations if the user is authenticated
     recommended_events = []
@@ -123,10 +121,15 @@ def events_by_city(request):
 
     if not selected_city:
         # Redirect to home if no city is selected
-        return redirect("home")
+        return redirect("users:home")
 
-    # Retrieve events for the selected city
-    events = Event.objects.filter(city=selected_city)
+    # Retrieve events for the selected city and ordering them by date
+    events = Event.objects.filter(city=selected_city).order_by("date")
+
+    # Set up pagination
+    paginator = Paginator(events, 6)
+    page_number = request.GET.get("page")
+    events = paginator.get_page(page_number)
 
     return render(
         request,
@@ -155,11 +158,11 @@ def event_detail(request, id):
 def events_by_tag(request, event_tag):
     """Display all events under a specific event_tag"""
     if event_tag == "Upcoming":
-        events = Event.objects.all().order_by("?")
+        events = Event.objects.all().order_by("date")
     else:
-        events = Event.objects.filter(event_tag=event_tag)
+        events = Event.objects.filter(event_tag=event_tag).order_by("date")
 
-    # Set up pagination (e.g., 5 events per page)
+    # Set up pagination
     paginator = Paginator(events, 6)
     page_number = request.GET.get("page")
     events = paginator.get_page(page_number)
@@ -177,7 +180,7 @@ def search(request):
 
     events = Event.objects.filter(
         Q(event_name__icontains=query) | Q(event_tag__icontains=query)
-    )
+    ).order_by("date")
 
     # Store search history in UserActivity
     if request.user.is_authenticated:

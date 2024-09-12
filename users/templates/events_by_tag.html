@@ -4,7 +4,11 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         {% if not user.is_authenticated %}
-        document.querySelectorAll('.next-button').forEach(button => {
+        // Select the buttons for Next and Last pagination
+        const buttons = document.querySelectorAll('.next-button, .last-button');
+        
+        // Attach event listeners to both Next and Last buttons
+        buttons.forEach(button => {
             button.addEventListener('click', function(event) {
                 event.preventDefault(); // Prevent the default action
                 document.getElementById('login-popup').style.display = 'block';
@@ -44,8 +48,8 @@
             </span>
 
             {% if events.has_next %}
-            <a href="?page={{ events.next_page_number }}" class="next-button">Next</a>
-                <a href="?page={{ events.paginator.num_pages }}">Last</a>
+                <a href="?page={{ events.next_page_number }}" class="next-button">Next</a>
+                <a href="?page={{ events.paginator.num_pages }}" class="last-button">Last</a>
             {% endif %}
         </span>
     </div>

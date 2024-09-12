@@ -94,7 +94,7 @@
     </div>
 </section>
 
-{% if user.is_authenticated%}
+{% if user.is_authenticated and recommended_events %}
 <section class="events-section">
     <div class="section-header">
         <h2>Recommended for You</h2>

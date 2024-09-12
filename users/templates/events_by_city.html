@@ -1,5 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if not user.is_authenticated %}
+        // Select the buttons for Next and Last pagination
+        const buttons = document.querySelectorAll('.next-button, .last-button');
+
+        // Attach event listeners to both Next and Last buttons
+        buttons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default action
+                document.getElementById('login-popup').style.display = 'block';
+            });
+        });
+
+        document.getElementById('close-popup').addEventListener('click', function() {
+            document.getElementById('login-popup').style.display = 'none';
+        });
+        {% endif %}
+    });
+</script>
+
 <section class="events-section">
     <div class="section-header">
         <h2>Upcoming Events in {{ selected_city }}</h2>
@@ -16,8 +37,36 @@
                 </a>
             {% endfor %}
         </div>
+        <!-- Pagination Controls -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if events.has_previous %}
+                    <a href="?city={{ selected_city }}&page=1">First</a>
+                    <a href="?city={{ selected_city }}&page={{ events.previous_page_number }}">Previous</a> 
+                {% endif %}
+
+                <span class="current">
+                    Page {{ events.number }} of {{ events.paginator.num_pages }}
+                </span>
+
+                {% if events.has_next %}
+                    <a href="?city={{ selected_city }}&page={{ events.next_page_number }}" class="next-button">Next</a>
+                    <a href="?city={{ selected_city }}&page={{ events.paginator.num_pages }}" class="last-button">Last</a>
+                {% endif %}
+            </span>
+        </div>
     {% else %}
         <p>No events found in {{ selected_city }}.</p>
     {% endif %}
 </section>
+
+<!-- Popup Modal for Login Alert -->
+<div id="login-popup" class="popup">
+    <div class="popup-content">
+        <span id="close-popup" class="close">&times;</span>
+        <p>You need to be logged in to navigate through the events.</p>
+        <a href="{% url 'users:login' %}?next={{ request.path }}">Login</a>
+    </div>
+</div>
+
 {% endblock %}
