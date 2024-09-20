@@ -1,0 +1,124 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 105vh;
+}
+
+/* Header Styles */
+.main-header {
+    display: flex;
+    background-color: #002D4B;
+    padding: 10px 40px;
+    color: white;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.main-header img {
+    margin-left: 70px;
+    height: 80px;
+    width: 80px;
+}
+
+.main-header h3 {
+    font-size: 18px;
+    margin-left: 30px;
+}
+
+/* Navigation Styles */
+.nav-content {
+    margin-left: 972px;
+}
+.nav-content a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 10px;
+    margin-left: 20px;
+}
+
+.nav-content a:hover {
+    text-decoration: underline;
+}
+
+/* Container Styles */
+.container {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    width: 100%;
+    background-color: #002D4B20;
+    padding: 0px 40px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Styles */
+.container h1 {
+    text-align: center;
+    color: #002D4B;
+}
+
+/* Form Group Layout */
+.form-grp {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 100px;
+}
+/* Form Group Styles */
+.form-group {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #002D4B;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    
+}
+
+/* Submit Button Styles */
+.form-group button {
+    padding: 8px 20px;
+    background-color: #002D4B;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 20px auto 0px;
+}
+
+/* Profile Picture Styles */
+.profile-picture {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture img {
+    border-radius: 50%;
+    
+}
